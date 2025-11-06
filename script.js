@@ -9,7 +9,7 @@ const products = [
   { id: 5, name: "Product 5", price: 50 },
 ];
 
-const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
 // DOM elements
 const productList = document.getElementById("product-list");
@@ -36,7 +36,7 @@ function renderCart() {
 
 // Add item to cart
 function addToCart(product_id) {
-	const product= products.filter((product)=>product.id==product_id)
+	const product= products.find((product)=>product.id==product_id)
 	
 	if (product) {
 	    // Always fetch the latest version from sessionStorage

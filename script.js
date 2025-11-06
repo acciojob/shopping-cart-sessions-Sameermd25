@@ -41,8 +41,10 @@ function addToCart(product_id) {
 	products.map((product)=>{
 		if(product.id==product_id){
 			cart.push(product)
+			currentCart.push(product);
 		}
 	})
+	
 	sessionStorage.setItem("cart", JSON.stringify(currentCart));
 	renderCart()
 }

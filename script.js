@@ -37,17 +37,18 @@ function renderCart() {
 
 // Add item to cart
 function addToCart(product_id) {
+	const currentCart = JSON.parse(sessionStorage.getItem("cart")) || [];
 	products.map((product)=>{
 		if(product.id==product_id){
 			cart.push(product)
 		}
 	})
+	sessionStorage.setItem("cart", JSON.stringify(currentCart));
 	renderCart()
 }
 
 // Remove item from cart
-function removeFromCart(productId) {
-	
+function removeFromCart(productId) {	
 }
 
 // Clear cart

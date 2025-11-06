@@ -7,7 +7,7 @@ const products = [
   { id: 5, name: "Product 5", price: 50 },
 ];
 
-// Initialize cart from sessionStorage, or empty array if none exists
+// Initialize cart from sessionStorage
 let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
 // DOM elements
@@ -17,14 +17,12 @@ const clearcartBtn = document.getElementById("clear-cart-btn");
 
 // Render product list
 function renderProducts() {
-  productList.innerHTML = ""; // clear existing items
+  productList.innerHTML = "";
   products.forEach((product) => {
     const li = document.createElement("li");
     li.innerHTML = `
       ${product.name} - $${product.price} 
-      <button class="add-to-cart-btn" onClick="addToCart(${product.id})">
-        Add to Cart
-      </button>
+      <button onClick="addToCart(${product.id})">Add to Cart</button>
     `;
     productList.appendChild(li);
   });
@@ -32,7 +30,7 @@ function renderProducts() {
 
 // Render cart list
 function renderCart() {
-  cartList.innerHTML = ""; // clear existing cart items
+  cartList.innerHTML = "";
   cart.forEach((product) => {
     const li = document.createElement("li");
     li.innerText = `${product.name} - $${product.price}`;
@@ -42,23 +40,19 @@ function renderCart() {
 
 // Add item to cart
 function addToCart(product_id) {
-  // Find the product to add
-  const product = products.find((p) => p.id === product_id);
+  const product = products.find(p => p.id === product_id);
   if (!product) return;
 
-  // Get latest cart from sessionStorage
-  const currentCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+  // Fetch latest cart from sessionStorage
+  cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
-  // Add the product to cart
-  currentCart.push(product);
+  // Add product to cart
+  cart.push(product);
 
   // Save updated cart to sessionStorage
-  sessionStorage.setItem("cart", JSON.stringify(currentCart));
+  sessionStorage.setItem("cart", JSON.stringify(cart));
 
-  // Update local cart variable for rendering
-  cart = currentCart;
-
-  // Re-render cart UI
+  // Re-render cart
   renderCart();
 }
 
@@ -69,13 +63,12 @@ function removeFromCart(productId) {
 // Clear cart
 function clearCart() {
   cart = [];
-  sessionStorage.setItem("cart", JSON.stringify(cart)); // empty array in sessionStorage
+  sessionStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
 }
 
-// Attach event listener for Clear Cart button
 clearcartBtn.addEventListener("click", clearCart);
 
-// Initial render on page load
+// Initial render
 renderProducts();
 renderCart();
